@@ -6,6 +6,10 @@
   "repository": "git@github.com:etlecoent/express-boilerplate.git",
   "author": "Etienne LC",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "test": "jest"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
