@@ -1,0 +1,9 @@
+{
+  "name": "express-boilerplate",
+  "version": "1.0.0",
+  "description": "An express boilerplate",
+  "main": "index.js",
+  "repository": "git@github.com:etlecoent/express-boilerplate.git",
+  "author": "Etienne LC",
+  "license": "MIT"
+}
