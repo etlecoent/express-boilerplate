@@ -39,12 +39,10 @@ const KnexConfig: Knex.Config = {
   },
   migrations: {
     tableName: 'knex_migrations',
-    directory: path.join(__dirname, '../db/migrations'),
-    extension: '.ts'
+    directory: path.join(__dirname, '../db/migrations')
   },
   seeds: {
-    directory: path.join(__dirname, '../db/seeds'),
-    extension: '.ts'
+    directory: path.join(__dirname, '../db/seeds')
   }
 };
 
