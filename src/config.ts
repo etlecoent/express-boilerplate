@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import type { Knex } from 'knex';
 
 /**
  * Throws an error if config & env aren't synced
@@ -25,7 +24,7 @@ const loadedEnv = dotenv.config({
 
 if (loadedEnv.error || !loadedEnv.parsed) throw new Error('Failed to load env');
 
-const KnexConfig: Knex.Config = {
+const KnexConfig = {
   debug: process.env.NODE_ENV === 'development',
   client: 'pg',
   connection: {
@@ -44,11 +43,17 @@ const KnexConfig: Knex.Config = {
   seeds: {
     directory: path.join(__dirname, '../db/seeds')
   }
-};
+} as const;
+
+const ServerConfig = {
+  host: process.env.HOST!,
+  port: Number(process.env.PORT)!
+} as const;
 
 const config = {
-  knex: KnexConfig
-};
+  knex: KnexConfig,
+  server: ServerConfig
+} as const;
 
 recursiveCheck(config);
 
