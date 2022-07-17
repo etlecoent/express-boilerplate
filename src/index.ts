@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './config';
 
@@ -10,7 +11,11 @@ app.use(helmet);
 // Remove x-powered-by header
 app.disable('x-powered-by');
 
+// Log incoming requests
+app.use(morgan('common'));
 // Properly parse content
 app.use(bodyParser);
 
-app.listen(config.server.port, config.server.host, () => {});
+app.listen(config.server.port, config.server.host, () => {
+  console.log(`Server started on ${config.server.host}:${config.server.port}`);
+});
