@@ -1,24 +1,26 @@
 {
+    "root": true,
     "env": {
         "node": true,
         "es2021": true,
         "jest": true
     },
-    "extends": [
-        "airbnb-base",
-        "airbnb-typescript/base",
-        "prettier"
-    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": "./tsconfig.json"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
     },
-    "plugins": [
-        "@typescript-eslint"
+    "extends": [
+        "eslint:recommend",
+        "plugin:import/recommended",
+        "plugin:jest/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
     ],
-    "ignorePatterns": ["dist/**/*"],
-    "rules": {
-    }
+    "plugins": [
+        "@typescript-eslint",
+        "jest",
+        "prettier"
+    ],
+    "ignorePatterns": ["node_modules", "build"]
 }
