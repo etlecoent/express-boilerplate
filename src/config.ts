@@ -5,14 +5,14 @@ import type { Knex } from 'knex';
 /**
  * Throws an error if config & env aren't synced
  */
-function recursiveCheck(obj: Record<string, any>, path: string[] = []) {
+function recursiveCheck(obj: Record<string, any>, keyPath: string[] = []) {
   Object.keys(obj).forEach((key) => {
     if (obj[key] === undefined || Number.isNaN(obj[key])) {
       throw new Error(
-        `Missing env variable for config key "${[...path, key].join('.')}"`
+        `Missing env variable for config key "${[...keyPath, key].join('.')}"`
       );
     } else if (typeof obj[key] === 'object') {
-      recursiveCheck(obj[key], [...path, key]);
+      recursiveCheck(obj[key], [...keyPath, key]);
     }
   });
 }
