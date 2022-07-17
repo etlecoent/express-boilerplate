@@ -19,12 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// Handle errors passed to next function, needs to be last middleware
-app.use(errorMiddleware);
-
 app.get('/', (req, res, next) => {
   res.send('Hello World!');
 });
+
+// Handle errors passed to next function, needs to be last middleware
+app.use(errorMiddleware);
 
 app.listen(config.server.port, config.server.host, () => {
   console.log(`Server started on ${config.server.host}:${config.server.port}`);
