@@ -1,20 +1,37 @@
+import { z } from 'zod';
 import dotenv from 'dotenv';
 import path from 'path';
 
-/**
- * Throws an error if config & env aren't synced
- */
-function recursiveCheck(obj: Record<string, any>, keyPath: string[] = []) {
-  Object.keys(obj).forEach((key) => {
-    if (obj[key] === undefined || Number.isNaN(obj[key])) {
-      throw new Error(
-        `Missing env variable for config key "${[...keyPath, key].join('.')}"`
-      );
-    } else if (typeof obj[key] === 'object') {
-      recursiveCheck(obj[key], [...keyPath, key]);
-    }
-  });
-}
+const KnexConfigSchema = z.object({
+  debug: z.boolean(),
+  client: z.literal('pg'),
+  connection: z.object({
+    database: z.string(),
+    user: z.string(),
+    password: z.string()
+  }),
+  pool: z.object({
+    min: z.number().int().positive().min(0),
+    max: z.number().int().positive().min(1)
+  }),
+  migrations: z.object({
+    tableName: z.literal('knex_migrations'),
+    directory: z.string()
+  }),
+  seeds: z.object({
+    directory: z.string()
+  })
+});
+
+const ServerConfigSchema = z.object({
+  host: z.string(),
+  port: z.preprocess((val: unknown) => Number(val), z.number().int().positive())
+});
+
+const ConfigSchema = z.object({
+  knex: KnexConfigSchema,
+  server: ServerConfigSchema
+});
 
 // Loads .env file
 const loadedEnv = dotenv.config({
@@ -28,9 +45,9 @@ const KnexConfig = {
   debug: process.env.NODE_ENV === 'development',
   client: 'pg',
   connection: {
-    database: process.env.DB_NAME!,
-    user: process.env.DB_USER!,
-    password: process.env.DB_PASSWORD!
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
   },
   pool: {
     min: 2,
@@ -46,15 +63,13 @@ const KnexConfig = {
 } as const;
 
 const ServerConfig = {
-  host: process.env.HOST!,
-  port: Number(process.env.PORT)!
+  host: process.env.HOST,
+  port: process.env.PORT
 } as const;
 
-const config = {
+const config = ConfigSchema.parse({
   knex: KnexConfig,
   server: ServerConfig
-} as const;
-
-recursiveCheck(config);
+});
 
 export default config;
