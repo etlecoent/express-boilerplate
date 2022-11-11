@@ -18,7 +18,8 @@
     "helmet": "^5.1.0",
     "knex": "^2.1.0",
     "morgan": "^1.10.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
