@@ -6,6 +6,7 @@
   "configurations": [
     {
       "type": "node",
+      "runtimeVersion": "18.12.1",
       "request": "launch",
       "name": "Express Server",
       "skipFiles": [
